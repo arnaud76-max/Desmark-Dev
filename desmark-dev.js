@@ -4,26 +4,31 @@
 //Hauteur et  largeur du labyrinthe avec une taille de cellule de 50 X 50 //
 
 const largeurLaby=17;
-const hauteurLaby=9;
+
+const hauteurLaby=7;
+
 const tailleCelluleLaby=50;
+
 const taillePacman=40;
+
 const distanceCollision=((taillePacman**2)+(taillePacman**2));
+
 const canvasWidth=largeurLaby*tailleCelluleLaby;
+
 const canvasHeight=hauteurLaby*tailleCelluleLaby;
+
 var canvasContext;
+
 var mort=false;
 
-var laby1 =[[ 9, 5, 1, 1, 5, 1, 5, 1, 1, 1, 5, 1, 1, 5, 5, 5, 3],
-			[10, 0,12, 2, 0,10, 0, 8, 0, 2, 0, 8, 6, 0, 0, 0,10],
-			[10, 0, 0,14, 0,10, 0, 8, 4, 2, 0,10, 0,13, 5, 1, 2],
-			[10, 0, 0, 0, 0,10, 0,14, 0,14, 0, 8, 3, 0, 0,12, 2],
-			[10, 0, 0, 0, 0,10, 0, 0, 0, 0, 0, 8, 0, 1, 8, 0,10],
-			[10, 0, 0, 0, 0,10, 0, 0, 0, 0, 0, 8, 0, 0, 8, 0,10],
-			[10, 0, 11,0, 0,10, 0, 0,11, 0, 0, 8, 4, 4, 8, 0,10],
-			[10, 0, 8, 3, 0,10, 0, 9, 0, 3, 0,10, 0, 0, 0, 9, 2],
-			[12, 5, 4, 4, 5, 4, 5, 4, 4, 4, 5, 4, 5, 5, 5, 4, 6],
-		   ];
-
+var laby1 =[[ 9, 5, 1, 1, 5, 1, 5, 1, 1, 1, 5, 1, 1, 5, 5, 5, 3],  //les différentes cases pour construire le laby
+[10, 0,12, 2, 0,10, 0, 8, 0, 2, 0, 8, 6, 0, 0, 0,10],
+[10, 0, 0,14, 0,10, 0, 8, 4, 2, 0,10, 0,13, 5, 1, 2],
+[10, 0, 0, 0, 0,10, 0,14, 0,14, 0, 8, 3, 0, 0,12, 2],
+[10, 0,11, 0, 0,10, 0, 0,11, 0, 0, 8, 4, 5, 7, 0,10],
+[10, 0, 8, 3, 0,10, 0, 9, 0, 3, 0,10, 0, 0, 0, 9, 2],
+[12, 5, 4, 4, 5, 4, 5, 4, 4, 4, 5, 4, 5, 5, 5, 4, 6],
+];
 var level=0;
 var definitionLevel=[ 
 						{labyrinthe:laby1,startX:9,startY:0,direction:9},
@@ -83,7 +88,6 @@ function endLoadGost()
 
 	loopMain();
 }
-
 function loopMain() 
 {
 	var cptFrame =0;
@@ -128,7 +132,7 @@ var pacman=
 	derniereDirection:0,
 	directionDemande:0,
 	delaiDemande:0,
-	vitesse:5,
+	vitesse:3,
 	vitesseAnim:6,
 	vAnim:0,
 	noAnim:0,
