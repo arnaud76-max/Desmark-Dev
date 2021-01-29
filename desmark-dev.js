@@ -3,13 +3,14 @@
 
 //Hauteur et  largeur du labyrinthe avec une taille de cellule de 50 X 50 //
 
+var score =0;
 const largeurLaby=17;
 
-const hauteurLaby=7;
+const hauteurLaby=9;
 
 const tailleCelluleLaby=50;
 
-const taillePacman=40;
+const taillePacman=50;
 
 const distanceCollision=((taillePacman**2)+(taillePacman**2));
 
@@ -20,20 +21,24 @@ const canvasHeight=hauteurLaby*tailleCelluleLaby;
 var canvasContext;
 
 var mort=false;
-
-var laby1 =[[ 9, 5, 1, 1, 5, 1, 5, 1, 1, 1, 5, 1, 1, 5, 5, 5, 3],  //les différentes cases pour construire le laby
-[10, 0,12, 2, 0,10, 0, 8, 0, 2, 0, 8, 6, 0, 0, 0,10],
-[10, 0, 0,14, 0,10, 0, 8, 4, 2, 0,10, 0,13, 5, 1, 2],
-[10, 0, 0, 0, 0,10, 0,14, 0,14, 0, 8, 3, 0, 0,12, 2],
-[10, 0,11, 0, 0,10, 0, 0,11, 0, 0, 8, 4, 5, 7, 0,10],
-[10, 0, 8, 3, 0,10, 0, 9, 0, 3, 0,10, 0, 0, 0, 9, 2],
-[12, 5, 4, 4, 5, 4, 5, 4, 4, 4, 5, 4, 5, 5, 5, 4, 6],
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//LE LABYRINTHE BINAIRE
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var laby1 =[[ 9, 5, 1, 1, 5, 1, 5, 1, 1, 1, 5, 1, 1, 5, 5, 5,  3],  //les différentes cases pour construire le laby
+			[10, 0,12, 2, 0,10, 0, 8, 0, 2, 0, 8, 6, 0, 0, 0, 10],
+			[10, 0, 0,14, 0,10, 0, 8, 4, 2, 0, 10,0, 13, 5, 1, 2],
+			[10, 0, 0, 0, 0,10, 0,10, 0,10, 0, 8, 3, 0, 0, 12, 2],
+			[10, 0, 0, 0, 0,10, 0,14,0, 14, 0, 8, 0, 1, 0, 0, 10],
+			[10, 0,11, 0, 0,10, 0, 0,11, 0, 0, 8, 0, 2, 0, 0, 10],
+			[10, 0,10, 0, 0,10, 0, 0,10, 0, 0, 8, 4, 6, 0, 0, 10],
+			[10, 0, 8, 3, 0,10, 0, 9, 0, 3, 0,10, 0, 0, 0, 9,  2],
+			[12, 5, 4, 4, 5, 4, 5, 4, 4, 4, 5, 4, 5, 5, 5, 4,  6],
 ];
 var level=0;
 var definitionLevel=[ 
 						{labyrinthe:laby1,startX:9,startY:0,direction:9},
 				];
-// Chargement des images des murs et leur position dans l'objet laby1// 
+// Chargement des images des murs et leur position dans l'objet laby1//  
 var imageMur;
 function start()
 {
@@ -69,6 +74,15 @@ function endLoadPacman() {
 								"asset/fantome3.png",
 								"asset/fantome4.png"],endLoadGost);	
 }
+var imageBonus;
+function endLoadBonus()
+{
+	imageBonus=loadImage([
+								"asset/pinceau.png",
+								"asset/potdepeinture.png",
+								"asset/superpacgomme.png"],endLoadMur);	
+	
+}
 function endLoadGost()
 {
 	
@@ -82,61 +96,76 @@ function endLoadGost()
 	canvasContext=canvas.getContext("2d");
 	document.getElementById("canvas").style.display="";
 	
-	pacman.init(definitionLevel[level]);
+	desmarkDev.init(definitionLevel[level]);
 	gost.init(definitionLevel[level]);
+	gost2.init(definitionLevel[level]);
+	gost3.update(definitionLevel[level]);
+	gost4.update(definitionLevel[level]);
 	createPillules(definitionLevel[level].labyrinthe,definitionLevel[level].startX,definitionLevel[level].startY);
 
 	loopMain();
 }
+var nbPillule=0;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//fonction loop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function loopMain() 
 {
-	var cptFrame =0;
+	var cptFrame;
 	var nbPillule=drawLaby(definitionLevel[level].labyrinthe);
-	pacman.update(definitionLevel[level]);
+	desmarkDev.update(definitionLevel[level]);
 	gost.update(definitionLevel[level]);
+	gost2.update(definitionLevel[level]);
+	gost3.update(definitionLevel[level]);
+	gost4.update(definitionLevel[level]);
+	document.getElementById("message").innerHTML = score + " / " + nbPillule ; 
+	
 	if(cptFrame>120){
 		for (var ligne=0;ligne<hauteurLaby;ligne++)
 		{
-			for(var colonne=0;colonne<largeurLaby;colonne++){
-				var bonus=definitionLevel[level].labyrinthe[colonne] [ligne]>>7;
+			for(var colonne=0;colonne<largeurLaby;colonne++)
+			{
+				var bonus=definitionLevel[level].labyrinthe[colonne] [ligne]>>9;
 				if(bonus&1 && Math.random()>.3)
 				{
-					definitionLevel[level].labyrinthe[colonne] [ligne] >>7;
+					definitionLevel[level].labyrinthe[colonne] [ligne] >>9;
 				}
 			}
 		}
 	}
-	if(pacman.mort)
-		pacman.vie--;
-		if(pacman.vie==0)
+		if(desmarkDev.mort)
+			desmarkDev.vie--;
+		if(desmarkDev.vie==0)
 		{
 			return;
 		}
 	
-	if(!nbPillule || pacman.mort) {
-		pacman.mort=false;
-		pacman.init(definitionLevel[level]);
+	   if(!nbPillule || desmarkDev.mort) 
+	    {
+		desmarkDev.mort=false;
+		desmarkDev.init(definitionLevel[level]);
 		createPillules(definitionLevel[level].labyrinthe,definitionLevel[level].startX,definitionLevel[level].startY);
-	}
-	setTimeout(loopMain,1000/60);
+	   }
+		setTimeout(loopMain,1000/60);
 }
 
 const delaiDemandeMax=20;
 // Création de la class pac-man //
-var pacman=
+var desmarkDev=
 {
-	
+	bonus:0,
+	bonus2:0,
+	bonus3:0,
 	x:0,
 	y:0,
 	direction:0,
 	derniereDirection:0,
 	directionDemande:0,
 	delaiDemande:0,
-	vitesse:3,
+	vitesse:5,
 	vitesseAnim:6,
 	vAnim:0,
 	noAnim:0,
-	score:0,
 	vie:3,
 	mort:false,
 	
@@ -149,26 +178,36 @@ var pacman=
 	},
 	// Dépalcement du pac-man avec la condition du joystick//
 	update(paramLevel)
-	 {
+	{
 
-		if(this.delaiDemande>=0) {
-			if(joystick&1) {
+		if(this.delaiDemande>=0) 
+		{
+			 if(joystick&1) 
+			{
 				this.directionDemande=1;
 				this.delaiDemande=delaiDemandeMax;
-			} else if(joystick&2) {
+			} 
+			 else if(joystick&2) 
+			{
 				this.directionDemande=2;
 				this.delaiDemande=delaiDemandeMax;
-			} else if(joystick&4) {
+			} 
+			 else if(joystick&4) 
+			{
 				this.directionDemande=4;
 				this.delaiDemande=delaiDemandeMax;
-			} else if(joystick&8) {
+			}
+			  else if(joystick&8) 
+			{
 				this.directionDemande=8;
 				this.delaiDemande=delaiDemandeMax;
 			}
 		}
 				
-		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) {
-			if(this.delaiDemande>0) {
+		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
+		{
+			if(this.delaiDemande>0) 
+			{
 				if((paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.directionDemande)==0) {
 					this.direction=this.directionDemande;
 					this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
@@ -186,7 +225,8 @@ var pacman=
 		else if(this.delaiDemande<0)
 			this.delaiDemande++;
 			
-		switch(this.direction) {
+		switch(this.direction)
+		{
 			case 1:
 			 this.y-=this.vitesse;
 			 break;
@@ -203,28 +243,39 @@ var pacman=
 
 		var dx=this.x-paramLevel.startX*tailleCelluleLaby;
 		//    Test de collision avec Pacman
- // Gestion de déplacement  et direction du pac-man//
+		 // Gestion de déplacement  et direction du pac-man//
 
 		canvasContext.save();
-		if(this.derniereDirection&8) {
+		if(this.derniereDirection&8) 
+		{
 			canvasContext.scale(-1,1);
 			canvasContext.translate((-this.x*2)-tailleCelluleLaby,0);
-		} else if(this.derniereDirection&4) {
+		}
+		 else if(this.derniereDirection&4) 
+		{
 			canvasContext.translate(this.x+this.y+tailleCelluleLaby,this.y-this.x);
 			canvasContext.rotate(Math.PI/2);			
-		} else if(this.derniereDirection&1) {
+		} 
+		else if(this.derniereDirection&1)
+		{
 			canvasContext.translate(-this.y+this.x,this.x+this.y+tailleCelluleLaby);
 			canvasContext.rotate(-Math.PI/2);
 		}		
-		if(this.direction) {
+		if(this.direction) 
+		{
 			this.derniereDirection=this.direction;
-			if(this.vAnim>0) { 
+			if(this.vAnim>0) 
+			{ 
 				this.vAnim--;
-			} else {
+			} 
+			else 
+			{
 				this.vAnim=this.vitesseAnim;
 				this.noAnim=(this.noAnim+1)%imagePacman.length;
 			}
-		} else {
+		} 
+		else 
+		{
 			this.noAnim=this.vAnim=0;
 		}
 		canvasContext.drawImage(imagePacman[this.noAnim],
@@ -235,33 +286,29 @@ var pacman=
 		var xPillule=parseInt(this.x/tailleCelluleLaby);
 		var yPillule=parseInt(this.y/tailleCelluleLaby);
 		if(paramLevel.labyrinthe[yPillule][xPillule]&(1<<4))
-		{
-			paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(1<<4);
-			score++;
+        {
+            paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(1<<4);
+            score++;
+        }
+
+        // pièce de droite
+        if( (this.direction&10) && (this.x%tailleCelluleLaby)>4 && paramLevel.labyrinthe[yPillule][xPillule]&(2<<4) )
+        {
+            paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(1<<4);
+            score++;
+        }
+
+        // pièce du sud
+        if( (this.direction&5) && (this.y%tailleCelluleLaby)>4 && paramLevel.labyrinthe[yPillule][xPillule]&(4<<4) )
+        { 
+            paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(4<<4);
+            score++;
 		}
 		
-		if(this.direction&10) this.x%tailleCelluleLaby>4 && paramLevel.labyrinthe[yPillule][xPillule]&(2<<4)
-		{
-			paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(4<<4);
-			score++;
-		}
-		if(this.direction&5) this.y%tailleCelluleLaby>4 && paramLevel.labyrinthe[yPillule][xPillule]&(2<<4)&(4<<4)
-		{
-			paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(4<<4);
-		}
-		if(this.mort)
-		{
-			document.getElementById("message").innerHTML="Mort";
-		}
-		var html =this.score+"/ nbPillule";
-		for(var i=1;i<this.vie;i++) html +="<img src='asset/curseur2.png'/>"
-		{
 
-		}
-
+		document.getElementById("message").innerHTML = score + " / " + nbPillule; 
 	}
-
-};
+}
 
 // Couleur et position des pillules dans le labyrinthe//
 function drawLaby(laby)
@@ -289,7 +336,8 @@ function drawLaby(laby)
 			var x=colonne*tailleCelluleLaby;
 			var y=ligne*tailleCelluleLaby;
 			pillule=(laby[ligne][colonne]>>4)& 15;
-			if(pillule&1) {
+			if(pillule&1) 
+			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-2,y+(tailleCelluleLaby/2)-2,4,4);
 				cptPillule++;
 			}
@@ -313,7 +361,7 @@ function createPillules(laby,x,y)
 	laby[y][x]|=1<<4;
 	laby[y][x]|=1<<7;
 	if(!(laby[y][x]&2)) laby[y][x]|=2<<4;
-	if(!(laby[y][x]&4)) laby[y][x]|=4<<4;
+	if(!(laby[y][x]&4)) laby[y][x]|=2<<4;
 	if(!(laby[y][x]&1) && !(laby[y-1][x]&(1<<4))) createPillules(laby,x,y-1);
 	if(!(laby[y][x]&2) && !(laby[y][x+1]&(1<<4))) createPillules(laby,x+1,y);
 	if(!(laby[y][x]&4) && !(laby[y+1][x]&(1<<4))) createPillules(laby,x,y+1);
