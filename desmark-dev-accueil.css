@@ -8,35 +8,40 @@ html,body
 	width:100%;
 	height:100%;
 }
-
-#canvas
+/*bouton  jouer du jeu*/  
+button 
 {
-	position:fixed;
-	top:140px;
-	left:6%;
-	width:75%;
-	height:78%;
-
-}
-
-#presentation 
+    text-decoration: none;
+    padding: 10px;
+    font-family: arial;
+    font-size: 2em;
+    color: #FFFFFF;
+    background-color:transparent;
+    border-radius: 11px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border: 2px solid #FFFFFF;
+    box-shadow: 3px 3px 12px #7f7f7f;
+    -webkit-box-shadow: 3px 3px 12px #7f7f7f;
+    -moz-box-shadow: 3px 3px 12px #7f7f7f;
+    
+    }
+    
+  
+button:hover 
 {
-	position:fixed;
-	top:0px;
-	left:0px;
-	width:100%;
-	height:100%;
+    padding: 10px;
+    color: #ffffff;
+    background-color: #ff0000;
+    box-shadow: 1px 1px 12px #777777;
+    -webkit-box-shadow: 1px 1px 12px #777777;
+    -moz-box-shadow: 1px 1px 12px #777777;
 }
-
-#jeu 
+a
 {
-	position:fixed;
-	top:0px;
-	left:0px;
-	width:100%;
-	height:100%;
-	
-}
+    text-decoration: none;
+    color: white;
+}  
 
 #saisieHiscore 
 {
