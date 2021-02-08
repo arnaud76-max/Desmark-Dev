@@ -1,1 +1,0 @@
-var score = 0;
