@@ -1,51 +1,57 @@
-html,body 
+
+@font-face
 {
-<<<<<<< HEAD
-	background: black;
-=======
-	background: url("");
->>>>>>> 82956275da77e6b3233aa8692058892a10273ed4
-	background-size: cover;
-	margin:0 auto;
-	padding:0px;
-	border-width:0px;
-<<<<<<< HEAD
-	width:50%;
-	height:50%;
+    font-family:'RacingSansOne-Regular';
+    src: url('RacingSansOne-Regular-webfont.eot');
+    src: url('RacingSansOne-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('RacingSansOne-Regular-webfont.woff') format('woff'),
+        url('RacingSansOne-Regular-webfont.ttf') format('truetype'),
+        url('RacingSansOne-Regular-webfont.svg#RacingSansOne-Regular') format('svg');
 }
 
-=======
-	width:100%;
-	height:100%;
+body
+{
+	background: url("asset/écran\ début.png") no-repeat;
+    background-size: cover;
+	margin:0 auto;
+    
+	
+}
+
+h1
+{
+font-size: 7em;
+font-family: 'RacingSansOne-Regular',Arial, serif;
+color: white;
+margin-top: 5%;
+text-align: center;
+margin-bottom: 24%;
 }
 /*bouton  jouer du jeu*/  
->>>>>>> 82956275da77e6b3233aa8692058892a10273ed4
 button 
 {
     text-decoration: none;
-    padding: 10px;
-    font-family: arial;
-    font-size: 2em;
+    padding: 2px;
+    font-family: "RacingSansOne-Regular",Arial, serif;
+    font-size: 2.5em;
     color: #FFFFFF;
     background-color:transparent;
-    border-radius: 11px;
-    -webkit-border-radius: 11px;
-    -moz-border-radius: 11px;
-    border: 2px solid #FFFFFF;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border: 3px solid #FFFFFF;
     box-shadow: 3px 3px 12px #7f7f7f;
     -webkit-box-shadow: 3px 3px 12px #7f7f7f;
     -moz-box-shadow: 3px 3px 12px #7f7f7f;
+    width: 250px;
+    margin-left: 43%;
     
     }
     
-<<<<<<< HEAD
-    
-=======
   
->>>>>>> 82956275da77e6b3233aa8692058892a10273ed4
 button:hover 
 {
-    padding: 10px;
+    padding: 2px;
     color: #ffffff;
     background-color: #ff0000;
     box-shadow: 1px 1px 12px #777777;
@@ -58,17 +64,6 @@ a
     color: white;
 }  
 
-<<<<<<< HEAD
-#canvas
-{
-	position:fixed;
-	top:140px;
-	left:6%;
-	width:30%;
-	height:30%;
-
-}
-=======
 #saisieHiscore 
 {
 	position:fixed;
@@ -77,4 +72,96 @@ a
 	width:100%;
 	height:100%;
 }
->>>>>>> 82956275da77e6b3233aa8692058892a10273ed4
+@media all and (max-width: 1024px)
+{
+    button 
+    {
+        width: auto;
+        margin-left: 30%;
+        text-decoration: none;
+        padding: 2px;
+        font-family: "RacingSansOne-Regular",Arial, serif;
+        font-size: 2.5em;
+        color: #FFFFFF;
+        background-color:transparent;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border: 3px solid #FFFFFF;
+        box-shadow: 3px 3px 12px #7f7f7f;
+        -webkit-box-shadow: 3px 3px 12px #7f7f7f;
+        -moz-box-shadow: 3px 3px 12px #7f7f7f;
+       
+     
+    }
+    h1
+    {
+ 
+        font-family: 'RacingSansOne-Regular';
+        color: white;
+        margin-top: 15%;
+        text-align: center;
+    }
+
+}
+@media only screen and (max-width:800px) 
+{
+    body
+    {
+        background: url("asset/écran\ début.png") no-repeat;
+        background-size: cover;
+        margin:0 auto;
+   }
+   button 
+    {
+        width: auto;
+        margin-left: 30%;
+        text-decoration: none;
+        padding: 2px;
+        font-family: "RacingSansOne-Regular",Arial, serif;
+        font-size: 2.5em;
+        color: #FFFFFF;
+        background-color:transparent;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border: 3px solid #FFFFFF;
+        box-shadow: 3px 3px 12px #7f7f7f;
+        -webkit-box-shadow: 3px 3px 12px #7f7f7f;
+        -moz-box-shadow: 3px 3px 12px #7f7f7f;
+       
+     
+    }
+    h1
+    {
+ 
+        font-family: 'RacingSansOne-Regular';
+        color: white;
+        margin-top: 15%;
+        text-align: center;
+    }
+
+}
+@media all and (max-device-width: 480px)
+{
+    button 
+    {
+        width: auto;
+        text-decoration: none;
+        padding: 2px;
+        font-family: "RacingSansOne-Regular",Arial, serif;
+        font-size: 2.5em;
+        color: #FFFFFF;
+        background-color:transparent;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border: 3px solid #FFFFFF;
+        box-shadow: 3px 3px 12px #7f7f7f;
+        -webkit-box-shadow: 3px 3px 12px #7f7f7f;
+        -moz-box-shadow: 3px 3px 12px #7f7f7f;
+
+        
+       
+    }
+}
