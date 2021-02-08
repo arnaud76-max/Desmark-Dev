@@ -1,5 +1,4 @@
 
- 
 var score =0;
 const largeurLaby=17;
 
@@ -7,9 +6,9 @@ const hauteurLaby=9;
 
 const tailleCelluleLaby=50;
 
-const taillePacman=50;
+const taillePacman=30;
 
-const distanceCollision=((taillePacman**2)+(taillePacman**2));
+const distanceCollision=((taillePacman**1.5)+(taillePacman**1.5));
 
 const canvasWidth=largeurLaby*tailleCelluleLaby;
 
@@ -53,24 +52,31 @@ var definitionLevel=[
 var imageMur;
 function start()
 {
-    imageMur=loadImage([	"asset/mur0.png",
-							"asset/mur1.png",
-							"asset/mur2.png",
-							"asset/mur3.png",
-							"asset/mur4.png",
-							"asset/mur5.png",
-							"asset/mur6.png",
-							"asset/mur7.png",
-							"asset/mur8.png",
-							"asset/mur9.png",
-							"asset/mur10.png",
-							"asset/mur11.png",
-							"asset/mur12.png",
-							"asset/mur13.png",
-							"asset/mur14.png",
-							"asset/mur15.png"],endLoadMur);
-}
 
+	
+	{
+		imageMur=loadImage([	"asset/mur0.png",
+								"asset/mur1.png",
+								"asset/mur2.png",
+								"asset/mur3.png",
+								"asset/mur4.png",
+								"asset/mur5.png",
+								"asset/mur6.png",
+								"asset/mur7.png",
+								"asset/mur8.png",
+								"asset/mur9.png",
+								"asset/mur10.png",
+								"asset/mur11.png",
+								"asset/mur12.png",
+								"asset/mur13.png",
+								"asset/mur14.png",
+								"asset/mur15.png"],endLoadMur);
+
+
+	}
+
+}
+    
 var imagePacman;
 function endLoadMur() {
 	imagePacman=loadImage([		"asset/curseur.png",
@@ -165,7 +171,7 @@ function loopMain() {
 		
 		var colonne=parseInt(Math.random()*largeurLaby);
 		var ligne=parseInt(Math.random()*hauteurLaby);
-		var	bonus =definitionLevel[level].labyrinthe[ligne][colonne]>>7;
+		var	bonus =definitionLevel[level].labyrinthe[ligne][colonne]>>3;
 		definitionLevel[level].labyrinthe[ligne][colonne]|=1<<8;
 
 		cptFrame=0;
