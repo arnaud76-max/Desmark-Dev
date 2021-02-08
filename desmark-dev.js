@@ -1,4 +1,5 @@
 
+ 
 var score =0;
 const largeurLaby=17;
 
@@ -17,7 +18,7 @@ const canvasHeight=hauteurLaby*tailleCelluleLaby;
 var canvasContext;
 
 var mort=false;
-
+var gameover=false;
 
 /*
  .----------------. .----------------. .----------------. .----------------. .----------------. .----------------. .-----------------..----------------. .----------------. .----------------. 
@@ -52,31 +53,24 @@ var definitionLevel=[
 var imageMur;
 function start()
 {
-
-	
-	{
-		imageMur=loadImage([	"asset/mur0.png",
-								"asset/mur1.png",
-								"asset/mur2.png",
-								"asset/mur3.png",
-								"asset/mur4.png",
-								"asset/mur5.png",
-								"asset/mur6.png",
-								"asset/mur7.png",
-								"asset/mur8.png",
-								"asset/mur9.png",
-								"asset/mur10.png",
-								"asset/mur11.png",
-								"asset/mur12.png",
-								"asset/mur13.png",
-								"asset/mur14.png",
-								"asset/mur15.png"],endLoadMur);
-
-
-	}
-
+    imageMur=loadImage([	"asset/mur0.png",
+							"asset/mur1.png",
+							"asset/mur2.png",
+							"asset/mur3.png",
+							"asset/mur4.png",
+							"asset/mur5.png",
+							"asset/mur6.png",
+							"asset/mur7.png",
+							"asset/mur8.png",
+							"asset/mur9.png",
+							"asset/mur10.png",
+							"asset/mur11.png",
+							"asset/mur12.png",
+							"asset/mur13.png",
+							"asset/mur14.png",
+							"asset/mur15.png"],endLoadMur);
 }
-    
+
 var imagePacman;
 function endLoadMur() {
 	imagePacman=loadImage([		"asset/curseur.png",
@@ -116,6 +110,7 @@ function endLoadDessin()
 	document.getElementById("message").innerHTML="test<br><img src='asset/ghost3.png'/><img src='asset/ghost2.png'/>";
 	pacman.init(definitionLevel[level]);
 	createPillules(definitionLevel[level].labyrinthe,definitionLevel[level].startX,definitionLevel[level].startY);
+	
 	
 	gost=new Array();
 	for(var i=0;i<nbGost;i++) 
@@ -171,20 +166,28 @@ function loopMain() {
 		
 		var colonne=parseInt(Math.random()*largeurLaby);
 		var ligne=parseInt(Math.random()*hauteurLaby);
-		var	bonus =definitionLevel[level].labyrinthe[ligne][colonne]>>3;
+		var	bonus =definitionLevel[level].labyrinthe[ligne][colonne]>>10;
 		definitionLevel[level].labyrinthe[ligne][colonne]|=1<<8;
 
 		cptFrame=0;
 		
 	}
-	
-	if(pacman.mort) {
+
+
+	if(pacman.mort)
+	 {
 		pacman.nbVie--;
-		if(pacman.nbVie==0) {
+		if(pacman.nbVie==0) 
+		{
+			alert("GAME OVER");
+			location.reload();
 			// game over
+			
 			return;
 		}
 	}
+
+
 	
 	if(!nbPillule || pacman.mort) {
 		pacman.mort=false;
@@ -210,7 +213,7 @@ var pacman={
 	mort:false,
 	score:0,
 	nbVie:3,
-	
+	gameover:false,
 	init(paramLevel) {
 		this.x=paramLevel.startX*tailleCelluleLaby;
 		this.y=paramLevel.startY*tailleCelluleLaby;
@@ -255,7 +258,8 @@ var pacman={
 		else if(this.delaiDemande<0)
 			this.delaiDemande++;
 			
-		switch(this.direction) {
+		switch(this.direction) 
+		{
 			case 1:
 			 this.y-=this.vitesse;
 			 break;
@@ -281,7 +285,8 @@ var pacman={
 			canvasContext.translate(-this.y+this.x,this.x+this.y+tailleCelluleLaby);
 			canvasContext.rotate(-Math.PI/2);
 		}		
-		if(this.direction) {
+		if(this.direction)
+		 {
 			this.derniereDirection=this.direction;
 			if(this.vAnim>0) { 
 				this.vAnim--;
@@ -372,7 +377,8 @@ function createPillules(laby,x,y) {
 	if(!(laby[y][x]&8) && !(laby[y][x-1]&(1<<4))) createPillules(laby,x-1,y);
 }
 
-var gostGestion=function(paramLevel) {
+var gostGestion=function(paramLevel) 
+{
 	
 		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) {
 			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) {
@@ -419,10 +425,12 @@ var gostImbecile=function(paramLevel) {
 	}
 }
 
-var gostUnpeuMoinsdebile=function(paramLevel) {
+var gostUnpeuMoinsdebile=function(paramLevel)
+ {
 	var demiTour=(this.direction<<2);if(demiTour>15) demiTour>>=4;
 	this.direction=2**Math.floor(Math.random()*4);
-	while(this.direction==demiTour || paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) {
+	while(this.direction==demiTour || paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
+	{
 		this.direction=2**Math.floor(Math.random()*4);
 	}
 }
