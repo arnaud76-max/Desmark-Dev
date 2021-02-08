@@ -112,8 +112,6 @@ var gost2=
 					this.direction=2**Math.floor(Math.random()*4);
 				}
 			}
-			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
-			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
 		}
 //Direction par case du fantome//
 		switch(this.direction) 
