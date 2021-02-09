@@ -18,7 +18,7 @@ const canvasHeight=hauteurLaby*tailleCelluleLaby;
 var canvasContext;
 
 var mort=false;
-var gameover=false;
+
 
 /*
  .----------------. .----------------. .----------------. .----------------. .----------------. .----------------. .-----------------..----------------. .----------------. .----------------. 
@@ -162,7 +162,8 @@ function loopMain() {
 
 	for(var i=0;i<gost.length;i++) gost[i].gestion(definitionLevel[level]);
 	
-	if(cptFrame>120) {
+	if(cptFrame>120)
+	{
 		
 		var colonne=parseInt(Math.random()*largeurLaby);
 		var ligne=parseInt(Math.random()*hauteurLaby);
@@ -213,7 +214,7 @@ var pacman={
 	mort:false,
 	score:0,
 	nbVie:3,
-	gameover:false,
+	
 	init(paramLevel) {
 		this.x=paramLevel.startX*tailleCelluleLaby;
 		this.y=paramLevel.startY*tailleCelluleLaby;
@@ -239,15 +240,19 @@ var pacman={
 			}
 		}
 				
-		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) {
-			if(this.delaiDemande>0) {
-				if((paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.directionDemande)==0) {
+		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
+		{
+			if(this.delaiDemande>0) 
+			{
+				if((paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.directionDemande)==0) 
+				{
 					this.direction=this.directionDemande;
 					this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
 					this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
 				}
 			} 
-			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) {
+			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction)
+			{
 				this.direction=0;
 				this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
 				this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
@@ -275,26 +280,33 @@ var pacman={
 		}
 
 		canvasContext.save();
-		if(this.derniereDirection&8) {
+		if(this.derniereDirection&8) 
+		{
 			canvasContext.scale(-1,1);
 			canvasContext.translate((-this.x*2)-tailleCelluleLaby,0);
-		} else if(this.derniereDirection&4) {
+		} else if(this.derniereDirection&4) 
+		{
 			canvasContext.translate(this.x+this.y+tailleCelluleLaby,this.y-this.x);
 			canvasContext.rotate(Math.PI/2);			
-		} else if(this.derniereDirection&1) {
+		} else if(this.derniereDirection&1) 
+		{
 			canvasContext.translate(-this.y+this.x,this.x+this.y+tailleCelluleLaby);
 			canvasContext.rotate(-Math.PI/2);
 		}		
 		if(this.direction)
 		 {
 			this.derniereDirection=this.direction;
-			if(this.vAnim>0) { 
+			if(this.vAnim>0) 
+			{ 
 				this.vAnim--;
-			} else {
+			} else 
+			{
 				this.vAnim=this.vitesseAnim;
 				this.noAnim=(this.noAnim+1)%imagePacman.length;
 			}
-		} else {
+		} 
+		else 
+		{
 			this.noAnim=this.vAnim=0;
 		}
 		canvasContext.drawImage(imagePacman[this.noAnim],
@@ -305,17 +317,20 @@ var pacman={
 		var xPillule=parseInt(this.x/tailleCelluleLaby);
 		var yPillule=parseInt(this.y/tailleCelluleLaby);
 		// pillule du centre
-		if(paramLevel.labyrinthe[yPillule][xPillule]&(1<<4)) {
+		if(paramLevel.labyrinthe[yPillule][xPillule]&(1<<4)) 
+		{
 			paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(1<<4);
 			this.score++;
 		}
 		// pillule de l'est
-		if((this.direction&10) && (this.x%tailleCelluleLaby)>4 && paramLevel.labyrinthe[yPillule][xPillule]&(2<<4)) {
+		if((this.direction&10) && (this.x%tailleCelluleLaby)>4 && paramLevel.labyrinthe[yPillule][xPillule]&(2<<4)) 
+		{
 			paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(2<<4);
 			this.score++;
 		} 
 		// pillule du sud
-		if((this.direction&5) && (this.y%tailleCelluleLaby)>4 && paramLevel.labyrinthe[yPillule][xPillule]&(4<<4)) {
+		if((this.direction&5) && (this.y%tailleCelluleLaby)>4 && paramLevel.labyrinthe[yPillule][xPillule]&(4<<4)) 
+		{
 			paramLevel.labyrinthe[yPillule][xPillule]&=0xffff-(4<<4);
 			this.score++;
 		} 
@@ -326,12 +341,15 @@ var pacman={
 	},
 };
 
-function drawLaby(laby){
+function drawLaby(laby)
+{
 
 	var pillule;
 	canvasContext.fillStyle="#ffffff";
-	for(var ligne=0;ligne<hauteurLaby;ligne++) {
-		for(var colonne=0;colonne<largeurLaby;colonne++) {
+	for(var ligne=0;ligne<hauteurLaby;ligne++) 
+	{
+		for(var colonne=0;colonne<largeurLaby;colonne++) 
+		{
 			var x=colonne*tailleCelluleLaby;
 			var y=ligne*tailleCelluleLaby;
 			canvasContext.drawImage(imageMur[laby[ligne][colonne]&15],
@@ -340,25 +358,31 @@ function drawLaby(laby){
 		}
 	}
 	var cptPillule=0;
-	for(var ligne=0;ligne<hauteurLaby;ligne++) {
-		for(var colonne=0;colonne<largeurLaby;colonne++) {
+	for(var ligne=0;ligne<hauteurLaby;ligne++) 
+	{
+		for(var colonne=0;colonne<largeurLaby;colonne++) 
+		{
 			var x=colonne*tailleCelluleLaby;
 			var y=ligne*tailleCelluleLaby;
 			pillule=(laby[ligne][colonne]>>4);
-			if(pillule&1) {
+			if(pillule&1) 
+			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-2,y+(tailleCelluleLaby/2)-2,4,4);
 				cptPillule++;
 			}
-			if(pillule&2) {
+			if(pillule&2) 
+			{
 				canvasContext.fillRect(x+tailleCelluleLaby-2,y+(tailleCelluleLaby/2)-2,4,4);
 				cptPillule++;
 			}
-			if(pillule&4) {
+			if(pillule&4) 
+			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-2,y+tailleCelluleLaby-2,4,4);
 				cptPillule++;
 			}
 			
-			if(pillule&16) {
+			if(pillule&16) 
+			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-8,y+(tailleCelluleLaby/2)-8,16,16);				
 			}
 		}
@@ -366,7 +390,8 @@ function drawLaby(laby){
 	return cptPillule;
 }
 
-function createPillules(laby,x,y) {
+function createPillules(laby,x,y)
+{
 	laby[y][x]|=1<<4;
 	laby[y][x]|=1<<7; // Cellule accessible par Pacman
 	if(!(laby[y][x]&2)) laby[y][x]|=2<<4;
@@ -380,18 +405,24 @@ function createPillules(laby,x,y) {
 var gostGestion=function(paramLevel) 
 {
 	
-		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) {
-			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) {
-				while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) {
+		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
+		{
+			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction)
+			 {
+				while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
+				{
 					this.direction=2**Math.floor(Math.random()*4);
 				}
-			} else {
+			}
+			 else 
+			{
 				this.ia(paramLevel);
 			}
 			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
 			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
 		}
-		switch(this.direction) {
+		switch(this.direction) 
+		{
 			case 1:
 			 this.y-=this.vitesse;
 			 break;
@@ -418,9 +449,11 @@ var gostGestion=function(paramLevel)
 		if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
 	};
 
-var gostImbecile=function(paramLevel) {
+var gostImbecile=function(paramLevel) 
+{
 	this.direction=2**Math.floor(Math.random()*4);
-	while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) {
+	while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
+	{
 		this.direction=2**Math.floor(Math.random()*4);
 	}
 }
