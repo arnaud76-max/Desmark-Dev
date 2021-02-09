@@ -108,7 +108,7 @@ function endLoadDessin()
 	canvasContext=canvas.getContext("2d");
 	document.getElementById("canvas").style.display="";
 	
-	document.getElementById("message").innerHTML="test<br><img src='asset/ghost3.png'/><img src='asset/ghost2.png'/>";
+	document.getElementById("message").innerHTML="test<br><img src='asset/fantome2.png'/><img src='asset/fantome3.png'/>";
 	pacman.init(definitionLevel[level]);
 	createPillules(definitionLevel[level].labyrinthe,definitionLevel[level].startX,definitionLevel[level].startY);
 	
@@ -184,7 +184,9 @@ function loopMain() {
 	canvasContext.restore();
 
 	obj.gestion=bonusGestion;
+	console.log("Les bonus marchent !")
 	}
+  
 
 
 
@@ -397,17 +399,20 @@ function drawLaby(laby)
 			if(pillule&2) 
 			{
 				canvasContext.fillRect(x+tailleCelluleLaby-2,y+(tailleCelluleLaby/2)-2,4,4);
+				this.score++,
 				cptPillule++;
 			}
 			if(pillule&4) 
 			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-2,y+tailleCelluleLaby-2,4,4);
+				this.score++,
 				cptPillule++;
 			}
 			
 			if(pillule&16) 
 			{
-				canvasContext.fillRect(x+(tailleCelluleLaby/2)-8,y+(tailleCelluleLaby/2)-8,16,16);				
+				canvasContext.fillRect(x+(tailleCelluleLaby/2)-8,y+(tailleCelluleLaby/2)-8,16,16);	
+				this.score++;			
 			}
 		}
 	}
