@@ -7,7 +7,7 @@ const hauteurLaby=9;
 
 const tailleCelluleLaby=50;
 
-const taillePacman=30;
+const taillePacman=35;
 
 const distanceCollision=((taillePacman**1.5)+(taillePacman**1.5));
 
@@ -206,7 +206,7 @@ var pacman={
 	derniereDirection:0,
 	directionDemande:0,
 	delaiDemande:0,
-	vitesse:4,
+	vitesse:6,
 	vitesseAnim:6,
 	vAnim:0,
 	noAnim:0,
