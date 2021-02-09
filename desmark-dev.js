@@ -359,7 +359,7 @@ var pacman=
 			this.score++;
 		} 
 		
-		var html=this.score+ " / "+ nbPillule;
+		var html="score: "+ this.score;
 		for(var i=1;i<this.nbVie;i++) html+="<img src='asset/curseur2.png'/>";
 		document.getElementById("message").innerHTML=html;
 	},
