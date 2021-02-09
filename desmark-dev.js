@@ -9,7 +9,7 @@ const tailleCelluleLaby=50;
 
 const taillePacman=35;
 
-const distanceCollision=((taillePacman**1.5)+(taillePacman**1.5));
+const distanceCollision=((taillePacman**1)+(taillePacman**1));
 
 const canvasWidth=largeurLaby*tailleCelluleLaby;
 
@@ -100,6 +100,7 @@ function endLoadDessin()
 	document.getElementById("presentation").style.display="none";
 	document.getElementById("jeu").style.display="";
 	document.getElementById("saisieHiscore").style.display="none";
+	
 
 	var canvas=document.getElementById("canvas");
 
@@ -107,7 +108,6 @@ function endLoadDessin()
 	canvas.height=canvasHeight;		
 	canvasContext=canvas.getContext("2d");
 	document.getElementById("canvas").style.display="";
-	
 	document.getElementById("message").innerHTML="test<br><img src='asset/fantome2.png'/><img src='asset/fantome3.png'/>";
 	pacman.init(definitionLevel[level]);
 	createPillules(definitionLevel[level].labyrinthe,definitionLevel[level].startX,definitionLevel[level].startY);
@@ -151,7 +151,8 @@ function endLoadDessin()
 
 var nbPillule=0;
 var cptFrame=0;
-function loopMain() {
+function loopMain() 
+{
 	
 	cptFrame++;
 	nbPillule=drawLaby(definitionLevel[level].labyrinthe);
@@ -172,10 +173,6 @@ function loopMain() {
 		
 	}
 	
-  
-
-
-
 	if(pacman.mort)
 	 {
 		pacman.nbVie--;
@@ -189,8 +186,6 @@ function loopMain() {
 		}
 	}
 
-
-	
 	if(!nbPillule || pacman.mort) {
 		pacman.mort=false;
 		pacman.init(definitionLevel[level]);
@@ -347,7 +342,7 @@ var pacman=
 			this.score++;
 		} 
 		
-		var html=this.score+ " / "+ nbPillule;
+		var html=this.score+"."+ nbPillule;
 		for(var i=1;i<this.nbVie;i++) html+="<img src='asset/curseur2.png'/>";
 		document.getElementById("message").innerHTML=html;
 	},
@@ -385,20 +380,20 @@ function drawLaby(laby)
 			if(pillule&2) 
 			{
 				canvasContext.fillRect(x+tailleCelluleLaby-2,y+(tailleCelluleLaby/2)-2,4,4);
-				this.score++,
+				score++,
 				cptPillule++;
 			}
 			if(pillule&4) 
 			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-2,y+tailleCelluleLaby-2,4,4);
-				this.score++,
+				score++,
 				cptPillule++;
 			}
 			
 			if(pillule&16) 
 			{
 				canvasContext.fillRect(x+(tailleCelluleLaby/2)-8,y+(tailleCelluleLaby/2)-8,16,16);	
-				this.score++;			
+				score++;			
 			}
 		}
 	}
@@ -461,8 +456,9 @@ var gostGestion=function(paramLevel)
 		// test la collision avec Pacman
 		var dx=this.x-pacman.x;
 		var dy=this.y-pacman.y;
-		if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
-	};
+		if( ((dx**1.5)+(dy**1.5)) <distanceCollision ) pacman.mort=true;
+};
+
 
 var gostImbecile=function(paramLevel) 
 {
