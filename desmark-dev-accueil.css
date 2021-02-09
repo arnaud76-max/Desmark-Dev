@@ -15,7 +15,16 @@
     padding: 0;
 
 }
+#canvas 
+{
+  
+    position:fixed;
+	top:140px;
+	left:6%;
+	width:75%;
+	height:78%;
 
+}
 body
 {
 
