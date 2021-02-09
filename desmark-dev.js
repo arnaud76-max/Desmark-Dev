@@ -102,6 +102,7 @@ function endLoadDessin()
 	document.getElementById("saisieHiscore").style.display="none";
 
 	var canvas=document.getElementById("canvas");
+
 	canvas.width=canvasWidth;
 	canvas.height=canvasHeight;		
 	canvasContext=canvas.getContext("2d");
@@ -133,9 +134,7 @@ function endLoadDessin()
 
 	var nbrDessin = 3;
 	 Dessin = new Array();
-	{
-	
-		for(var i=0;i<nbrDessin;i++) 
+	      for(var i=0;i<nbrDessin;i++) 
 		{
 			var obj=new Object();
 			obj.x=8*tailleCelluleLaby;
@@ -144,7 +143,6 @@ function endLoadDessin()
 			Dessin.push(obj);
 		}
 
-	}
 
 
 	loopMain();
@@ -167,12 +165,27 @@ function loopMain() {
 		
 		var colonne=parseInt(Math.random()*largeurLaby);
 		var ligne=parseInt(Math.random()*hauteurLaby);
-		var	bonus =definitionLevel[level].labyrinthe[ligne][colonne]>>10;
+		var	bonus = definitionLevel[level].labyrinthe[ligne][colonne]>>10;
 		definitionLevel[level].labyrinthe[ligne][colonne]|=1<<8;
 
 		cptFrame=0;
 		
 	}
+	var bonusGestion=function(paramLevel) 
+	{
+
+	this.delai--;
+	if(this.delai<=0) return true;
+
+	canvasContext.save();
+	canvasContext.drawImage(imageDessin,
+							0,0,tailleCelluleLaby,tailleCelluleLaby,
+							this.x,this.y,tailleCelluleLaby,tailleCelluleLaby);
+	canvasContext.restore();
+
+	obj.gestion=bonusGestion;
+	}
+
 
 
 	if(pacman.mort)
@@ -199,7 +212,8 @@ function loopMain() {
 }
 
 const delaiDemandeMax=20;
-var pacman={
+var pacman=
+{
 	
 	x:0,
 	y:0,
@@ -215,26 +229,36 @@ var pacman={
 	score:0,
 	nbVie:3,
 	
-	init(paramLevel) {
+	init(paramLevel) 
+	{
 		this.x=paramLevel.startX*tailleCelluleLaby;
 		this.y=paramLevel.startY*tailleCelluleLaby;
 		this.directionDemande=this.direction=this.derniereDirection=paramLevel.direction;
 		this.delaiDemande=-30;
 	},
 	
-	update(paramLevel) {
+	update(paramLevel) 
+	{
 
-		if(this.delaiDemande>=0) {
-			if(joystick&1) {
+		if(this.delaiDemande>=0) 
+		{
+			if(joystick&1) 
+			{
 				this.directionDemande=1;
 				this.delaiDemande=delaiDemandeMax;
-			} else if(joystick&2) {
+			} 
+			else if(joystick&2) 
+			{
 				this.directionDemande=2;
 				this.delaiDemande=delaiDemandeMax;
-			} else if(joystick&4) {
+			} 
+			else if(joystick&4) 
+			{
 				this.directionDemande=4;
 				this.delaiDemande=delaiDemandeMax;
-			} else if(joystick&8) {
+			} 
+			else if(joystick&8) 
+			{
 				this.directionDemande=8;
 				this.delaiDemande=delaiDemandeMax;
 			}
@@ -464,10 +488,9 @@ var gostUnpeuMoinsdebile=function(paramLevel)
 	this.direction=2**Math.floor(Math.random()*4);
 	while(this.direction==demiTour || paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
 	{
+		this.vitesse=2**Math.floor(Math.random()*4)
 		this.direction=2**Math.floor(Math.random()*4);
 	}
 }
-
-
 
 
