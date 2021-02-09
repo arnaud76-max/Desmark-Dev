@@ -171,21 +171,7 @@ function loopMain() {
 		cptFrame=0;
 		
 	}
-	var bonusGestion=function(paramLevel) 
-	{
-
-	this.delai--;
-	if(this.delai<=0) return true;
-
-	canvasContext.save();
-	canvasContext.drawImage(imageDessin,
-							0,0,tailleCelluleLaby,tailleCelluleLaby,
-							this.x,this.y,tailleCelluleLaby,tailleCelluleLaby);
-	canvasContext.restore();
-
-	obj.gestion=bonusGestion;
-	console.log("Les bonus marchent !")
-	}
+	
   
 
 
@@ -361,7 +347,7 @@ var pacman=
 			this.score++;
 		} 
 		
-		var html="score: "+ this.score;
+		var html=this.score+ " / "+ nbPillule;
 		for(var i=1;i<this.nbVie;i++) html+="<img src='asset/curseur2.png'/>";
 		document.getElementById("message").innerHTML=html;
 	},
