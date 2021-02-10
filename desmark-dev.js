@@ -7,7 +7,7 @@ const hauteurLaby=9;
 
 const tailleCelluleLaby=50;
 
-const taillePacman=35;
+const taillePacman=50;
 
 const distanceCollision=((taillePacman**1)+(taillePacman**1));
 
@@ -47,7 +47,7 @@ var laby1 =[[9 , 5, 5, 5, 1, 5, 1, 5, 5, 5, 1, 5, 1, 5, 5, 5, 3],
 ];
 var level=0;
 var definitionLevel=[ 
-						{labyrinthe:laby1,startX:8,startY:0,direction:8},
+						{labyrinthe:laby1,startX:8,startY:8,direction:0},
 				];
 
 var imageMur;
@@ -131,8 +131,8 @@ function endLoadDessin()
 	gost[2].ia=gostUnpeuMoinsdebile;
 	gost[3].ia=gostUnpeuMoinsdebile;
 
-
-	var nbrDessin = 3;
+	
+	var nbrDessin = 9;
 	 Dessin = new Array();
 	      for(var i=0;i<nbrDessin;i++) 
 		{
@@ -144,12 +144,39 @@ function endLoadDessin()
 			obj.ia=function(){};
 			Dessin.push(obj);
 		}
-	
+	//image pinceau au centre du labyrinthe en en axe x 8 et y 4//
 	Dessin[0].ia=gestionDessin;
-	Dessin[1].ia=gestionDessin;
-	Dessin[2].ia=gestionDessin;
 
+	//image pot de peinture sur un axe x 12 et y 8 en bas à droite du labyrinthe//
+	Dessin[1].x=12*tailleCelluleLaby;
+	Dessin[1].y=8*tailleCelluleLaby;
 
+	//Image super gomme à gauche du labyrinthe en axe x0 et y4//
+	Dessin[2].x=0*tailleCelluleLaby;
+	Dessin[2].y=4*tailleCelluleLaby;
+
+	//image pinceau en  axe x 2 et y 0 en haut a gauche du labyrinthe//
+	Dessin[3].x=2*tailleCelluleLaby;
+	Dessin[3].y=0*tailleCelluleLaby;
+
+	//image pot de peinture sur un axe x 16 et y 2 en  à droite du labyrinthe//
+	Dessin[4].x=16*tailleCelluleLaby;
+	Dessin[4].y=2*tailleCelluleLaby;
+
+	//image gomme au centre bas du labyrinthe en en axe x 8 et y 7//
+	Dessin[5].x=8*tailleCelluleLaby;
+	Dessin[5].y=7*tailleCelluleLaby;
+
+	//image pinceau  en axe x 14 et y 5 droite  du labyrinthe//
+	Dessin[6].x=14*tailleCelluleLaby;
+	Dessin[6].y=5*tailleCelluleLaby;
+
+	//image pot de peinture sur un axe x 16 et y 2 en  à droite du labyrinthe//
+	Dessin[7].x=6*tailleCelluleLaby;
+	Dessin[7].y=2*tailleCelluleLaby;
+
+	Dessin[8].x=13*tailleCelluleLaby;
+	Dessin[8].y=0*tailleCelluleLaby;
 
 
 	loopMain();
@@ -192,7 +219,8 @@ function loopMain()
 		}
 	}
 
-	if(!nbPillule || pacman.mort) {
+	if(!nbPillule || pacman.mort) 
+	{
 		pacman.mort=false;
 		pacman.init(definitionLevel[level]);
 		createPillules(definitionLevel[level].labyrinthe,definitionLevel[level].startX,definitionLevel[level].startY);
@@ -217,6 +245,7 @@ var pacman=
 	mort:false,
 	score:0,
 	nbVie:3,
+
 	
 	init(paramLevel) 
 	{
@@ -462,7 +491,10 @@ var gostGestion=function(paramLevel)
 		// test la collision avec Pacman
 		var dx=this.x-pacman.x;
 		var dy=this.y-pacman.y;
-		if( ((dx**1.5)+(dy**1.5)) <distanceCollision ) pacman.mort=true;
+		if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
+
+		setTimeout(loopMain,1000/60);
+		
 };
 
 
@@ -472,7 +504,10 @@ var gostImbecile=function(paramLevel)
 	while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
 	{
 		this.direction=2**Math.floor(Math.random()*4);
+		
 	}
+
+	
 }
 
 var gostUnpeuMoinsdebile=function(paramLevel)
@@ -484,6 +519,10 @@ var gostUnpeuMoinsdebile=function(paramLevel)
 		this.vitesse=2**Math.floor(Math.random()*4)
 		this.direction=2**Math.floor(Math.random()*4);
 	}
+		var dx=this.x-pacman.x;
+		var dy=this.y-pacman.y;
+		if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
+			
 }
 var gostGestion=function(paramLevel) 
 {
@@ -529,29 +568,14 @@ var gostGestion=function(paramLevel)
 		// test la collision avec Pacman
 		var dx=this.x-pacman.x;
 		var dy=this.y-pacman.y;
-		if( ((dx**1.5)+(dy**1.5)) <distanceCollision ) pacman.mort=true;
+		if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
+		
 };
 var gestionDessin=function(paramLevel) 
 {
 	
-		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
-		{
-			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction)
-			 {
-				while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
-				{
-					this.direction=2**Math.floor(Math.random()*4);
-				}
-			}
-			 else 
-			{
-				this.ia(paramLevel);
-			}
 			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
 			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
-		}
-		
-
 		canvasContext.save();
 		canvasContext.drawImage(this.img,
 								0,0,tailleCelluleLaby,tailleCelluleLaby,
@@ -561,7 +585,9 @@ var gestionDessin=function(paramLevel)
 		// test la collision avec Pacman
 		var dx=this.x-pacman.x;
 		var dy=this.y-pacman.y;
-		if( ((dx**1.5)+(dy**1.5)) <distanceCollision );
+		if( ((dx**2)+(dy**2)) <distanceCollision );
+
+		
 };
 
 
