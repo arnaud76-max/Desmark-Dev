@@ -140,8 +140,15 @@ function endLoadDessin()
 			obj.x=8*tailleCelluleLaby;
 			obj.y=4*tailleCelluleLaby;
 			obj.img=imageDessin[i%imageDessin.length];
+			obj.gestion=gestionDessin;
+			obj.ia=function(){};
 			Dessin.push(obj);
 		}
+	
+	Dessin[0].ia=gestionDessin;
+	Dessin[1].ia=gestionDessin;
+	Dessin[2].ia=gestionDessin;
+
 
 
 
@@ -158,7 +165,7 @@ function loopMain()
 	nbPillule=drawLaby(definitionLevel[level].labyrinthe);
 	pacman.update(definitionLevel[level]);
 	
-
+	for(var i=0;i<Dessin.length;i++) Dessin[i].gestion(definitionLevel[level]);
 	for(var i=0;i<gost.length;i++) gost[i].gestion(definitionLevel[level]);
 	
 	if(cptFrame>120)
@@ -166,7 +173,6 @@ function loopMain()
 		
 		var colonne=parseInt(Math.random()*largeurLaby);
 		var ligne=parseInt(Math.random()*hauteurLaby);
-		var	bonus = definitionLevel[level].labyrinthe[ligne][colonne]>>10;
 		definitionLevel[level].labyrinthe[ligne][colonne]|=1<<8;
 
 		cptFrame=0;
@@ -479,5 +485,83 @@ var gostUnpeuMoinsdebile=function(paramLevel)
 		this.direction=2**Math.floor(Math.random()*4);
 	}
 }
+var gostGestion=function(paramLevel) 
+{
+	
+		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
+		{
+			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction)
+			 {
+				while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
+				{
+					this.direction=2**Math.floor(Math.random()*4);
+				}
+			}
+			 else 
+			{
+				this.ia(paramLevel);
+			}
+			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
+			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
+		}
+		switch(this.direction) 
+		{
+			case 1:
+			 this.y-=this.vitesse;
+			 break;
+			case 2:
+			 this.x+=this.vitesse;
+			 break;
+			case 4:
+			 this.y+=this.vitesse;
+			 break;
+			case 8:
+			 this.x-=this.vitesse;
+			 break;
+		}
+
+		canvasContext.save();
+		canvasContext.drawImage(this.img,
+								0,0,tailleCelluleLaby,tailleCelluleLaby,
+								this.x,this.y,tailleCelluleLaby,tailleCelluleLaby);
+		canvasContext.restore();
+		
+		// test la collision avec Pacman
+		var dx=this.x-pacman.x;
+		var dy=this.y-pacman.y;
+		if( ((dx**1.5)+(dy**1.5)) <distanceCollision ) pacman.mort=true;
+};
+var gestionDessin=function(paramLevel) 
+{
+	
+		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
+		{
+			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction)
+			 {
+				while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
+				{
+					this.direction=2**Math.floor(Math.random()*4);
+				}
+			}
+			 else 
+			{
+				this.ia(paramLevel);
+			}
+			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
+			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
+		}
+		
+
+		canvasContext.save();
+		canvasContext.drawImage(this.img,
+								0,0,tailleCelluleLaby,tailleCelluleLaby,
+								this.x,this.y,tailleCelluleLaby,tailleCelluleLaby);
+		canvasContext.restore();
+		
+		// test la collision avec Pacman
+		var dx=this.x-pacman.x;
+		var dy=this.y-pacman.y;
+		if( ((dx**1.5)+(dy**1.5)) <distanceCollision );
+};
 
 
