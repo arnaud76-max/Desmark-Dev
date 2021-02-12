@@ -9,7 +9,7 @@ const tailleCelluleLaby=50;
 
 const taillePacman=50;
 
-const distanceCollision=((taillePacman**1)+(taillePacman**1));
+const distanceCollision=((taillePacman**1.5)+(taillePacman**1.5));
 
 const canvasWidth=largeurLaby*tailleCelluleLaby;
 
@@ -132,52 +132,43 @@ function endLoadDessin()
 	gost[2].ia=gostUnpeuMoinsdebile;
 	gost[3].ia=gostUnpeuMoinsdebile;
 
-	var nbrDessin = 9;
-	Dessin = new Array();
+	var nbrDessin = 1;
+	dessin = new Array();
 		 for(var i=0;i<nbrDessin;i++) 
 	   {
 		   var obj=new Object();
 		   obj.x=8*tailleCelluleLaby;
 		   obj.y=4*tailleCelluleLaby;
-		   obj.img=imageDessin[i%imageDessin.length];
-		   obj.mort=true;
 		   obj.gestion=gestionDessin;
+		   obj.img=imageDessin[i%imageDessin.length];
 		   obj.ia=function(){};
-		   Dessin.push(obj);
+		   dessin.push(obj);
+		   obj.score=1000;
 	   }
    //image pinceau au centre du labyrinthe en en axe x 8 et y 4//
-   Dessin[0];
+ 
 
    //image pot de peinture sur un axe x 12 et y 8 en bas à droite du labyrinthe//
-   Dessin[1].x=12*tailleCelluleLaby;
-   Dessin[1].y=8*tailleCelluleLaby;
+
   
    //Image super gomme à gauche du labyrinthe en axe x0 et y4//
-   Dessin[2].x=0*tailleCelluleLaby;
-   Dessin[2].y=4*tailleCelluleLaby;
+   dessin[0].x=0*tailleCelluleLaby;
+   dessin[0].y=4*tailleCelluleLaby;
  
    //image pinceau en  axe x 2 et y 0 en haut a gauche du labyrinthe//
-   Dessin[3].x=2*tailleCelluleLaby;
-   Dessin[3].y=0*tailleCelluleLaby;
+  
 
    //image pot de peinture sur un axe x 16 et y 2 en  à droite du labyrinthe//
-   Dessin[4].x=16*tailleCelluleLaby;
-   Dessin[4].y=2*tailleCelluleLaby;
+  
 
    //image gomme au centre bas du labyrinthe en en axe x 8 et y 7//
-   Dessin[5].x=8*tailleCelluleLaby;
-   Dessin[5].y=7*tailleCelluleLaby;
+   
 
    //image pinceau  en axe x 14 et y 5 droite  du labyrinthe//
-   Dessin[6].x=14*tailleCelluleLaby;
-   Dessin[6].y=5*tailleCelluleLaby;
+   
 
    //image pot de peinture sur un axe x 16 et y 2 en  à droite du labyrinthe//
-   Dessin[7].x=6*tailleCelluleLaby;
-   Dessin[7].y=2*tailleCelluleLaby;
 
-   Dessin[8].x=13*tailleCelluleLaby;
-   Dessin[8].y=0*tailleCelluleLaby;
 
 	
 
@@ -193,10 +184,12 @@ function loopMain()
 	nbPillule=drawLaby(definitionLevel[level].labyrinthe);
 	pacman.update(definitionLevel[level]);
 	
-	for(var i=0;i<Dessin.length;i++) Dessin[i].gestion(definitionLevel[level]);
+	for(var i=0;i<dessin.length;i++) dessin[i].gestion(definitionLevel[level]);
 	for(var i=0;i<gost.length;i++) gost[i].gestion(definitionLevel[level]);
 	
 	
+	
+
 	if(pacman.mort)
 	 {
 		pacman.nbVie--;
@@ -375,6 +368,8 @@ var pacman=
 		for(var i=1;i<this.nbVie;i++) html+="<img src='asset/curseur2.png'/>";
 		document.getElementById("message").innerHTML=html;
 
+		
+		
 	
 
 	},
@@ -515,103 +510,30 @@ var pacman=
 			this.vitesse=2**Math.floor(Math.random()*4)
 			this.direction=2**Math.floor(Math.random()*4);
 		}
-			var dx=this.x-pacman.x;
-			var dy=this.y-pacman.y;
-			if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
 			
 	}
-	var gostGestion=function(paramLevel) 
+	var pinceau;
+	 var gestionDessin=function(paramLevel) 
 	{
-	
-		if((this.x%tailleCelluleLaby)<this.vitesse && (this.y%tailleCelluleLaby)<this.vitesse) 
-		{
-			if(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction)
-			 {
-				while(paramLevel.labyrinthe[parseInt(this.y/tailleCelluleLaby)][parseInt(this.x/tailleCelluleLaby)]&this.direction) 
-				{
-					this.direction=2**Math.floor(Math.random()*4);
-				}
-			}
-			 else 
-			{
-				this.ia(paramLevel);
-			}
-			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
-			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
-		}
-		switch(this.direction) 
-		{
-			case 1:
-			 this.y-=this.vitesse;
-			 break;
-			case 2:
-			 this.x+=this.vitesse;
-			 break;
-			case 4:
-			 this.y+=this.vitesse;
-			 break;
-			case 8:
-			 this.x-=this.vitesse;
-			 break;
-		}
+		this.ia(paramLevel);
+		this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
+		this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
 
 		canvasContext.save();
 		canvasContext.drawImage(this.img,
 								0,0,tailleCelluleLaby,tailleCelluleLaby,
 								this.x,this.y,tailleCelluleLaby,tailleCelluleLaby);
 		canvasContext.restore();
-		
-		// test la collision avec Pacman
 		var dx=this.x-pacman.x;
 		var dy=this.y-pacman.y;
-		if( ((dx**2)+(dy**2)) <distanceCollision ) pacman.mort=true;
-		
-	};
-	var gestionDessin=function(paramLevel) 
-	{
-		
+		if( ((dx**2)+(dy**2))<distanceCollision)
+		{
 			this.score++;
-			this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
-			this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
-		canvasContext.save();
-		canvasContext.drawImage(this.img,
-								0,0,tailleCelluleLaby,tailleCelluleLaby,
-								this.x,this.y,tailleCelluleLaby,tailleCelluleLaby);
-		canvasContext.restore();
-		var dx=this.x-pacman.x;
-		var dy=this.y-pacman.y;
-		if( (((dx**2)+(dy**2)) < distanceCollision ))
-		{
-			Dessin=-1;
-		} 	
-		else 
-		{
-			this.ia(paramLevel);
+			dessin++;;
+			pinceau = document.getElementsByTagName("img").item(0);
 		}
 		
-		this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
-		this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
-	};
-			/*
-	var dessinEat=function(paramLevel) 
-	{
-		if( (((dx**2)+(dy**2)) < distanceCollision ))
-		{
-			Dessin=-1;
-		} 	
+	
 		
-		this.x=(parseInt(this.x/tailleCelluleLaby))*tailleCelluleLaby;
-		this.y=(parseInt(this.y/tailleCelluleLaby))*tailleCelluleLaby;
 	};
-	/*
-	while(distanceCollision=Dessin)
-		{
-			canvasContext.beginPath();
-			canvasContext.lineWidth='5';
-			canvasContext.fillStyle="#4C8";
-			canvasContext.arc(75,100,50,0, Math.PI);
-			canvasContext.fill();
-		}
-
-
-*/
+	
